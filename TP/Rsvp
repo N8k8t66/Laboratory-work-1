@@ -1,0 +1,66 @@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model WebApplication1665.Models.GuestResponse
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RsvpForm</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        <div>
+            @Html.LabelFor(x => x.Operand1)
+            @Html.TextBoxFor(x => x.Operand1, new { @class = "calculator-input", type = "number", step = "1" })
+        </div>
+
+        <p>
+            @Html.LabelFor(x => x.Operand2)
+            @Html.TextBoxFor(x => x.Operand2, new { @class = "calculator-input", type = "number", step = "1" })
+        </p>
+        <p>
+            @Html.LabelFor(x => x.Operand2)
+            @Html.ListBox(x => x.Operation, new[] {
+        new SelectListItem() { "+", "-", "*", "/" }, new { @class = "calculator-input" }})
+        </p>
+        <input type="submit" name="submitButton" value="Вычислить" />
+        <input type="submit" name="submitButton" value="Очистить" />
+
+        if (Model != null)
+        {
+
+            if (Model.Result == ViewBag.ExpectedValue)
+            {
+                <h3>Результат: Совпадает с ожидаемым значением (@ViewBag.ExpectedValue)</h3>
+            }
+            else if (Model.Result != 0)
+            {
+                <h3>Результат: @Model.Result (должно было быть @ViewBag.ExpectedValue)</h3>
+            }
+
+            if (Model.Result != 0)
+            {
+                <h3>Результат: @Model.Result</h3>
+            }
+        }
+    }
+
+    @section CalculatorSection {
+        <div style="margin-top: 20px; padding: 10px; background-color: #e8f4f8; border-radius: 5px;">
+            <p>Информация о калькуляторе</p>
+            <p>Типы операндов: long и demical</p>
+            <p>Выбор операции: ListBox</p>
+            <p>Компоновка подключена без файла _ViewStart.cshtml</p>
+        </div>
+    }
+</body>
+</html>
