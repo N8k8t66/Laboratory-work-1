@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Laboratorywork.TP.CalculatorModel
+
+@{
+    ViewBag.Title = "Калькулятор";
+}
+
+<h2>Калькулятор</h2>
+
+@using (Html.BeginForm())
+{
+
+<div>
+    @Html.LabelFor(m => m.Operand1)
+    @Html.TextBoxFor(m => m.Operand1, new { @class = "calculator-input", type = "number", step = "1" })
+    @Html.ValidationMessageFor(m => m.Operand1, "", new { @class = "text-danger" })
+</div>
+
+<div>
+    @Html.LabelFor(m => m.Operand2)
+    @Html.TextBoxFor(m => m.Operand2, new { @class = "calculator-input", type = "text" })
+    @Html.ValidationMessageFor(m => m.Operand2, "", new { @class = "text-danger" })
+</div>
+
+    <div>
+        @Html.LabelFor(m => m.Operation)
+        @Html.DropDownListFor(m => m.Operation,
+            new SelectList(new[] { "+", "-", "*", "/" }),
+            "Выберите операцию", new { @class = "calculator-input" })
+        @Html.ValidationMessageFor(m => m.Operation)
+    </div>
+
+    <div>
+        <input type="submit" name="submitButton" value="Вычислить" />
+        <input type="submit" name="submitButton" value="Очистить" />
+    </div>
+
+    if (Model != null)
+    {
+
+        if (Model.Result == ViewBag.ExpectedValue)
+        {
+            <div style="color: green; font-weight: bold;">
+                Результат совпадает с ожидаемым значением (@ViewBag.ExpectedValue)!
+            </div>
+        }
+        else if (Model.Result != 0)
+        {
+            <div style="color: blue;">
+                Результат: @Model.Result (ожидалось @ViewBag.ExpectedValue)
+            </div>
+        }
+
+
+        if (Model.Result != 0)
+        {
+            <h3>Результат: @Model.Result</h3>
+        }
+    }
+}
+
+<div style="margin-top: 20px;">
+    @Html.ActionLink("Посмотреть детали последней операции", "ResultDetails", "Calculator", null, new { @class = "calculator-button" })
+</div>
+
+@section CalculatorSection {
+    <div style="margin-top: 20px; padding: 10px; background-color: #e8f4f8; border-radius: 5px;">
+        <p><strong>📌 Информация о калькуляторе</strong></p>
+        <p>Типы операндов: ushort и double (вариант 6)</p>
+        <p>Выбор операции: выпадающий список (вариант Б)</p>
+        <p>Макет подключен явно (без _ViewStart.cshtml)</p>
+    </div>
+}
