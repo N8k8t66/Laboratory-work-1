@@ -1,0 +1,44 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Детали операции";
+}
+
+<h2>Детали операции</h2>
+
+@{
+    string expression = Request.Cookies["CalculatorExpression"]?.Value;
+
+    if (!string.IsNullOrEmpty(expression))
+    {
+        <p><strong>Исходное выражение:</strong> @expression</p>
+
+        string processedExpression = ProcessExpression(expression);
+
+        <p><strong>Обработанное выражение:</strong> @processedExpression</p>
+    }
+    else
+    {
+        <p>Нет данных о предыдущих вычислениях. Сначала выполните операцию в калькуляторе.</p>
+    }
+}
+
+@functions {
+    public string ProcessExpression(string expression)
+    {
+        
+        int equalIndex = expression.LastIndexOfAny(new char[] { '=' });
+        if (equalIndex == -1) return expression;
+   
+        string result = expression.Remove(equalIndex, 1);
+
+        result = result.Insert(equalIndex, " равно ");
+
+        result = result.Replace("  ", " ");
+
+        return result;
+    }
+}
+
+<div style="margin-top: 20px;">
+    @Html.ActionLink("← Вернуться к калькулятору", "Index", "Calculator", null, new { @class = "calculator-button" })
+</div>
