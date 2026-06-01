@@ -28,7 +28,7 @@
     <div>
         @Html.LabelFor(m => m.Operation)
         @Html.DropDownListFor(m => m.Operation,
-            new SelectList(new[] { "+", "-", "*", "/" }),
+            new SelectList(new[] { "+", "-", "*"}),
             "Выберите операцию", new { @class = "calculator-input" })
         @Html.ValidationMessageFor(m => m.Operation)
     </div>
